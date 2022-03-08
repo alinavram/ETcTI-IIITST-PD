@@ -9,4 +9,4 @@ domeniul real. Acest sistem software trebuie sa respecte urmatoarele cerinte:
 2.Sa functioneze in timp real, procesare maxima de 7 frames/s.
 3.Sa existe o functionalitate de vizionare a procesarii pe fiecare frame.
 4.Sa existe o metoda de configurare/schimbare a inregistrarii folosite.
-5.Sa existe informatia de distanta fata de banda din stanga si din dreapta in metri, expuse catre exterior.
+5.Sa existe informatia de distanta fata de banda din stanga si din dreapta in metri, expuse catre exterior. 
