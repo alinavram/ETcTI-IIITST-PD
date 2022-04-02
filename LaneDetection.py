@@ -60,26 +60,31 @@ def average_slope_intercept(resized_image, lines):
     right_line = make_coordinates(resized_image, right_fit_average)
     return np.array([left_line, right_line])
 
+def img():
+    canny_image = canny(lane_image)
+    cropped_image = region_of_interest(canny_image)
+    lines = cv.HoughLinesP(cropped_image, 2, np.pi/180, threshold=100, lines=np.array([]), minLineLength=40, maxLineGap=5)
+    averaged_lines = average_slope_intercept(lane_image, lines)
+    line_image = display_lines(lane_image, averaged_lines)
+    combined_image = cv.addWeighted(lane_image, 0.8, line_image, 1, 1)
+    cv.imshow('frame', combined_image)
+    cv.waitKey(0)
 
-canny_image = canny(lane_image)
-cropped_image = region_of_interest(canny_image)
-lines = cv.HoughLinesP(cropped_image, 2, np.pi/180, threshold=100, lines=np.array([]), minLineLength=40, maxLineGap=5)
-averaged_lines = average_slope_intercept(lane_image, lines)
-line_image = display_lines(lane_image, averaged_lines)
-combined_image = cv.addWeighted(lane_image, 0.8, line_image, 1, 1)
-cv.imshow('frame', combined_image)
-cv.waitKey(0)
+def video():
+    cap = cv.VideoCapture("Recordings/Recording4_014.mp4")
+    while(cap.isOpened()):
+        _, frame = cap.read()
+        resized_frame = cv.resize(frame, (1280, 720), interpolation=cv.INTER_AREA)
+        canny_image = canny(resized_frame)
+        cropped_image = region_of_interest(canny_image)
+        lines = cv.HoughLinesP(cropped_image, 2, np.pi / 180, threshold=100, lines=np.array([]), minLineLength=40, maxLineGap=5)
+        averaged_lines = average_slope_intercept(resized_frame, lines)
+        line_image = display_lines(resized_frame, averaged_lines)
+        combined_image = cv.addWeighted(resized_frame, 0.8, line_image, 1, 1)
+        cv.imshow("result", combined_image)
+        cv.waitKey(50)
+
+img()
+# video()
 
 
-# cap = cv.VideoCapture("Recordings/Recording4_014.mp4")
-# while(cap.isOpened()):
-#     _, frame = cap.read()
-#     resized_frame = cv.resize(frame, (1280, 720), interpolation=cv.INTER_AREA)
-#     canny_image = canny(resized_frame)
-#     cropped_image = region_of_interest(canny_image)
-#     lines = cv.HoughLinesP(cropped_image, 2, np.pi / 180, threshold=100, lines=np.array([]), minLineLength=40, maxLineGap=5)
-#     averaged_lines = average_slope_intercept(resized_frame, lines)
-#     line_image = display_lines(resized_frame, averaged_lines)
-#     combined_image = cv.addWeighted(resized_frame, 0.8, line_image, 1, 1)
-#     cv.imshow("result", combined_image)
-#     cv.waitKey(50)
